@@ -25,17 +25,19 @@ public class Crop : MonoBehaviour
     public void NewDayCheck()
     {
         daysSinceLastWater++;
-        
+
         if(daysSinceLastWater > 3)
         {
             Destroy(gameObject);
-            UpdateCropSprite();
         }
+
+        UpdateCropSprite();
     }
 
     public void UpdateCropSprite()
     {
         int cropProg = CropProgress();
+        
         if(cropProg < curCrop.daysToGrow)
         {
             sr.sprite = curCrop.growProgressSprites[cropProg];
