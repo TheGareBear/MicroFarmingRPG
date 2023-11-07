@@ -16,6 +16,18 @@ public class GameManager : MonoBehaviour
     //Singleton
     public static GameManager instance;
 
+    void OnEnable()
+    {
+        Crop.onPlantCrop += OnPlantCrop;
+        Crop.onHarvestCrop += OnHarvestCrop;    
+    }
+
+    void OnDisable()
+    {
+        Crop.onPlantCrop -= OnPlantCrop;
+        Crop.onHarvestCrop -= OnHarvestCrop;  
+    }
+
     void Awake()
     {
         if(instance != null && instance != this)
@@ -36,12 +48,12 @@ public class GameManager : MonoBehaviour
 
     public void OnPlantCrop(CropData crop)
     {
-
+        cropInventory --;
     }
 
     public void OnHarvestCrop(CropData crop)
     {
-
+        money += crop.sellPrice;
     }
 
     public void PurchaseCrop(CropData crop)
