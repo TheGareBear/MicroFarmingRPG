@@ -24,6 +24,8 @@ public class Crop : MonoBehaviour
 
     public void NewDayCheck()
     {
+        daysSinceLastWater++;
+        
         if(daysSinceLastWater > 3)
         {
             Destroy(gameObject);

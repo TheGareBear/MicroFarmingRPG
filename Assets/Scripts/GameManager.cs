@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.CrashReportHandler;
 using UnityEngine.Events;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     public CropData selectedCropToPlant;
     public event UnityAction onNewDay;
     public int cropInventory;
+    public TextMeshProUGUI statsText;
 
     //Singleton
     public static GameManager instance;
@@ -43,22 +45,28 @@ public class GameManager : MonoBehaviour
 
     public void SetNextDay()
     {
-
+        currentDay++;
+        onNewDay?.Invoke();
+        UpdateStatsText();
     }
 
     public void OnPlantCrop(CropData crop)
     {
         cropInventory --;
+        UpdateStatsText();
     }
 
     public void OnHarvestCrop(CropData crop)
     {
         money += crop.sellPrice;
+        UpdateStatsText();
     }
 
     public void PurchaseCrop(CropData crop)
     {
-
+        money -= crop.purchasePrice;
+        cropInventory++;
+        UpdateStatsText();
     }
 
     public bool CanPlantCrop()
@@ -68,11 +76,14 @@ public class GameManager : MonoBehaviour
 
     public void OnBuyCropButton(CropData crop)
     {
-
+        if(money >= crop.purchasePrice)
+        {
+            PurchaseCrop(crop);
+        }
     }
 
     void UpdateStatsText()
     {
-        
+        statsText.text = $"Day: {currentDay}\nMoney: ${money}\nCrop Inventory: {cropInventory}";
     }
 }
