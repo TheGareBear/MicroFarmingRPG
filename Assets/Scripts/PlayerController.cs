@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class PlayerController : MonoBehaviour
             facingDir = moveInput.normalized;
             sr.flipX = moveInput.x > 0;
         }    
+
+        if(interactInput)
+        {
+            TryInteractTile();
+            interactInput = false;
+        }
     }
 
     void FixedUpdate()
@@ -38,6 +45,17 @@ public class PlayerController : MonoBehaviour
         if(context.phase == InputActionPhase.Performed)
         {
             interactInput = true;
+        }
+    }
+
+    void TryInteractTile()
+    {
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + facingDir, Vector3.up, 0.1f, interactLayerMask);
+
+        if(hit.collider != null)
+        {
+            FieldTile tile = hit.collider.GetComponent<FieldTile>();
+            tile.Interact();
         }
     }
 }

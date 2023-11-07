@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class FieldTile : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //private Crop curCrop;
+    public GameObject cropPrefab;
+    public SpriteRenderer sr;
+    private bool tilled;
+
+    [Header("Sprites")]
+    public Sprite grassSprite;
+    public Sprite tilledSprite;
+    public Sprite wateredTilledSprite;
+
     void Start()
     {
-        
+        // Set the default grass sprite
+        sr.sprite = grassSprite;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Interact()
     {
-        
+        gameObject.SetActive(false);
+        Debug.Log("Interacted");
     }
 }
